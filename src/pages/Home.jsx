@@ -16,7 +16,9 @@ const Home = () => {
 
 
     const handleFileInputClick = () => {
-        fileInputRef.current.click();
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
     };
 
     const closeUploadModal = () => {
@@ -33,12 +35,13 @@ const Home = () => {
             }, 2000);
             return () => clearTimeout(timeout);
         }
-    }, [])
+    }, [uploadComplete])
 
     return (
         <>
             <div className='main-div' onClick={handleFileInputClick}>
                 hello tinku
+                <img src={avatarUrl} alt="" />
             </div>
 
 
@@ -56,7 +59,7 @@ const Home = () => {
                 // message={message}
                 setUploadComplete={setUploadComplete}
                 fileInputRef={fileInputRef}
-                changeImageState={setAvatarUrl}
+                setAvatarUrl={setAvatarUrl}
             />
         </>
     )

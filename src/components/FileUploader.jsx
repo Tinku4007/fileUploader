@@ -30,7 +30,7 @@ const FileUploader = ({
     setUploadComplete,
     closeUploadModal,
     fileInputRef,
-    changeImageState
+    setAvatarUrl
 }) => {
     const [open, setOpen] = useState(false);
     const getNewAvatarUrl = (e) => {
@@ -52,13 +52,14 @@ const FileUploader = ({
             if (file) {
                 const formData = new FormData();
                 formData.append('media', croppedFile);
+                console.log(formData)
                 try {
                     const response = await UploadImage(formData, (progressEvent) => {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                         setUploadProgress(percentCompleted);
                     });
                     if (response?.isSuccess) {
-                        changeImageState(response?.data?.url);
+                        setAvatarUrl(response?.data?.url);
                         setUploadProgress(0);
                         setLoadingCrop(false);
                         setUploadComplete(true);
@@ -90,30 +91,33 @@ const FileUploader = ({
                 </form>
             }
 
-            {
-                file &&
+            {/* { file  && */}
                 <Modal open={open} onClose={() => setOpen(false)}>
                     <Box sx={style}>
-                        <Cropper
-                            src={file}
-                            style={{ height: "200px", width: "100%" }}
-                            initialAspectRatio={NaN}
-                            minCropBoxHeight={50}
-                            minCropBoxWidth={50}
-                            guides={false}
-                            background={false}
-                            checkOrientation={false}
-                            viewMode={1}
-                            dragMode='move'
-                            onInitialized={(instance) => {
-                                setCropper(instance);
-                            }}
-                        />
-                        <div className='flex justify-center gap-x-4 pt-4 poppins'>
-                            <button onClick={getCropData} className="bg-primary-900 text-white rounded-md px-4 py-1">Upload</button>
-                            <button onClick={() => { setFile(null); setCropper(null) }} className="text-primary-900 border border-primary-900 rounded-md px-4 py-1 hover:bg-primary-900 hover:text-white hover:border-transparent transition-all">Cancel</button>
-                        </div>
+                        {file &&
+                            <div>
+                                <Cropper
+                                    src={file}
+                                    style={{ height: "200px", width: "100%" }}
+                                    initialAspectRatio={NaN}
+                                    minCropBoxHeight={50}
+                                    minCropBoxWidth={50}
+                                    guides={false}
+                                    background={false}
+                                    checkOrientation={false}
+                                    viewMode={1}
+                                    dragMode='move'
+                                    onInitialized={(instance) => {
+                                        setCropper(instance);
+                                    }}
+                                />
+                                <div className='flex justify-center gap-x-4 pt-4 poppins'>
+                                    <button onClick={getCropData} className="bg-primary-900 text-white rounded-md px-4 py-1">Upload</button>
+                                    <button onClick={() => { setFile(null); setCropper(null) }} className="text-primary-900 border border-primary-900 rounded-md px-4 py-1 hover:bg-primary-900 hover:text-white hover:border-transparent transition-all">Cancel</button>
+                                </div>
+                            </div>
 
+                        }
 
                         <div className='flex justify-center'>
                             {
@@ -127,8 +131,7 @@ const FileUploader = ({
                         </div>
                     </Box>
                 </Modal>
-            }
-
+            {/* } */}
         </>
     );
 };
