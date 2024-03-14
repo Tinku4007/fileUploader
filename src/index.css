@@ -1,0 +1,32 @@
+.uploading-img {
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    height: 12px;
+    width: 80%;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .uploading-img::after {
+    content: "";
+    width: 40%;
+    height: 100%;
+    background: #61373f;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    animation: animloader 2s linear infinite;
+  }
+  
+  @keyframes animloader {
+    0% {
+      left: 0;
+      transform: translateX(-100%);
+    }
+    100% {
+      left: 100%;
+      transform: translateX(0%);
+    }
+  }
